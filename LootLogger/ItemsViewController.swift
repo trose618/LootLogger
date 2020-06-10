@@ -16,7 +16,8 @@ class ItemsViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    tableView.rowHeight = 65
+    tableView.rowHeight = UITableView.automaticDimension
+    tableView.estimatedRowHeight = 65
   }
   
   
@@ -38,6 +39,8 @@ class ItemsViewController: UITableViewController {
     cell.nameLabel.text = item.name
     cell.serialNumberLabel.text = item.serialNumber
     cell.valueLabel.text = "$\(item.valueInDollars)"
+    
+    cell.backgroundColor = item.valueInDollars >= 50 ? UIColor.red : UIColor.green
     
     return cell
   }
