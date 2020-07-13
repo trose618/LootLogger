@@ -16,10 +16,21 @@ class ItemsViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    tableView.rowHeight = UITableView.automaticDimension
-    tableView.estimatedRowHeight = 65
+    //tableView.rowHeight = UITableView.automaticDimension
+    //tableView.estimatedRowHeight = 65
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    tableView.reloadData()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    
+    navigationItem.leftBarButtonItem = editButtonItem
+  }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     // If the triggered segue is the "showItem" segue
@@ -59,7 +70,7 @@ class ItemsViewController: UITableViewController {
     cell.serialNumberLabel.text = item.serialNumber
     cell.valueLabel.text = "$\(item.valueInDollars)"
     
-    cell.backgroundColor = item.valueInDollars >= 50 ? UIColor.red : UIColor.green
+    //cell.backgroundColor = item.valueInDollars >= 50 ? UIColor.red : UIColor.green
     
     return cell
   }
@@ -84,20 +95,7 @@ class ItemsViewController: UITableViewController {
   
   //Actions
   
-  @IBAction func toggleEditingMode(_ sender: UIButton) {
-    
-    if isEditing {
-      sender.setTitle("Edit", for: .normal)
-      
-      setEditing(false, animated: true)
-    }else {
-      sender.setTitle("Done", for: .normal)
-      
-      setEditing(true, animated: true)
-    }
-  }
-  
-  @IBAction func addNewItem(_ sender: UIButton) {
+  @IBAction func addNewItem(_ sender: UIBarButtonItem) {
     
     let newItem = itemStore.createItem()
     
@@ -106,7 +104,5 @@ class ItemsViewController: UITableViewController {
       
       tableView.insertRows(at: [indexPath], with: .automatic)
     }
-    
-    
   }
 }
