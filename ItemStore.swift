@@ -13,6 +13,15 @@ class ItemStore {
   var allItems = [Item]()
   
   init() {
+    do {
+      let data = try Data(contentsOf: itemArchiveURL)
+      let unarchiver = PropertyListDecoder()
+      let items = try unarchiver.decode([Item].self, from: data)
+      allItems = items
+    } catch {
+        print("Error reading in saved items: \(error)")
+    }
+    
     let notificationCenter = NotificationCenter.default
     notificationCenter.addObserver(self,
                                    selector: #selector(saveChanges),
